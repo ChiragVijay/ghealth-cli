@@ -1,0 +1,72 @@
+[project]
+name = "ghealth"
+version = "0.1.0"
+description = "Command Line Tool for Google Health API"
+readme = "README.md"
+
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.13.4",
+    "rich>=15.0.0",
+    "typer>=0.26.7",
+    "httpx>=0.28.1",
+    "platformdirs>=4.3.6",
+    "keyring>=25.6.0",
+]
+
+[project.scripts]
+ghealth = "ghealth.cli:app"
+
+[build-system]
+requires = ["uv_build>=0.11.6,<0.12.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "ghealth"
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.3",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.16",
+    "ty>=0.0.48",
+]
+
+
+[tool.ruff]
+line-length = 110
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "F",   # pyflakes
+  "I",   # import sorting
+  "B",   # bugbear
+  "UP",  # pyupgrade
+  "SIM", # simplification
+  "C4",  # comprehensions
+  "PIE", # miscellaneous cleanup
+  "PTH", # pathlib usage
+  "RUF", # Ruff-specific checks
+  "TRY", # exception handling
+  "S",   # security checks
+]
+ignore = [
+  "B008",   # Typer uses Option/Argument calls in function defaults
+  "S105",   # false positives on token_storage/token_uri config names
+  "S110",   # optional external metadata fetches may be safely ignored
+  "TRY002", # custom exception classes would add noise at this stage
+  "TRY003", # CLI-facing exception messages are intentionally specific
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+  "S101",
+  "S106",
+]
+"src/ghealth/cli.py" = [
+  "S110",
+]
+"src/ghealth/auth/oauth.py" = [
+  "E501", # embedded redirect HTML contains long CSS/SVG lines
+]
