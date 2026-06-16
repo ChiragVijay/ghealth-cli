@@ -1,0 +1,655 @@
+{
+  "active-energy-burned": {
+    "display_name": "Active Energy Burned",
+    "data_type": "active-energy-burned",
+    "filter_name": "active_energy_burned",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "rollUp",
+      "dailyRollUp",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/active-energy-burned"
+  },
+  "active-minutes": {
+    "display_name": "Active Minutes",
+    "data_type": "active-minutes",
+    "filter_name": "active_minutes",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "dailyRollUp"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/active-minutes"
+  },
+  "active-zone-minutes": {
+    "display_name": "Active Zone Minutes",
+    "data_type": "active-zone-minutes",
+    "filter_name": "active_zone_minutes",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "dailyRollUp"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/active-zone-minutes"
+  },
+  "activity-level": {
+    "display_name": "Activity Level",
+    "data_type": "activity-level",
+    "filter_name": "activity_level",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": false,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/activity-level"
+  },
+  "altitude": {
+    "display_name": "Altitude",
+    "data_type": "altitude",
+    "filter_name": "altitude",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "location",
+    "webhook_support": false,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/altitude"
+  },
+  "blood-glucose": {
+    "display_name": "Blood Glucose",
+    "data_type": "blood-glucose",
+    "filter_name": "blood_glucose",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/blood-glucose"
+  },
+  "body-fat": {
+    "display_name": "Body Fat",
+    "data_type": "body-fat",
+    "filter_name": "body_fat",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/body-fat"
+  },
+  "calories-in-heart-rate-zone": {
+    "display_name": "Calories in Heart Rate Zone",
+    "data_type": "calories-in-heart-rate-zone",
+    "filter_name": "calories_in_heart_rate_zone",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": false,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/calories-in-heart-rate-zone"
+  },
+  "core-body-temperature": {
+    "display_name": "Core Body Temperature",
+    "data_type": "core-body-temperature",
+    "filter_name": "core_body_temperature",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/core-body-temperature"
+  },
+  "daily-heart-rate-variability": {
+    "display_name": "Daily Heart Rate Variability",
+    "data_type": "daily-heart-rate-variability",
+    "filter_name": "daily_heart_rate_variability",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-heart-rate-variability"
+  },
+  "daily-heart-rate-zones": {
+    "display_name": "Daily Heart Rate Zones",
+    "data_type": "daily-heart-rate-zones",
+    "filter_name": "daily_heart_rate_zones",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-heart-rate-zones"
+  },
+  "daily-oxygen-saturation": {
+    "display_name": "Daily Oxygen Saturation",
+    "data_type": "daily-oxygen-saturation",
+    "filter_name": "daily_oxygen_saturation",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-oxygen-saturation"
+  },
+  "daily-respiratory-rate": {
+    "display_name": "Daily Respiratory Rate",
+    "data_type": "daily-respiratory-rate",
+    "filter_name": "daily_respiratory_rate",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-respiratory-rate"
+  },
+  "daily-resting-heart-rate": {
+    "display_name": "Daily Resting Heart Rate",
+    "data_type": "daily-resting-heart-rate",
+    "filter_name": "daily_resting_heart_rate",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-resting-heart-rate"
+  },
+  "daily-sleep-temperature-derivations": {
+    "display_name": "Daily Sleep Temperature Derivations",
+    "data_type": "daily-sleep-temperature-derivations",
+    "filter_name": "daily_sleep_temperature_derivations",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "sleep",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-sleep-temperature-derivations"
+  },
+  "daily-vo2-max": {
+    "display_name": "Daily VO2 Max",
+    "data_type": "daily-vo2-max",
+    "filter_name": "daily_vo2_max",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/daily-vo2-max"
+  },
+  "distance": {
+    "display_name": "Distance",
+    "data_type": "distance",
+    "filter_name": "distance",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "rollUp",
+      "dailyRollUp",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/distance"
+  },
+  "electrocardiogram": {
+    "display_name": "Electrocardiogram",
+    "data_type": "electrocardiogram",
+    "filter_name": "electrocardiogram",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "ecg",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/electrocardiogram"
+  },
+  "exercise": {
+    "display_name": "Exercise",
+    "data_type": "exercise",
+    "filter_name": "exercise",
+    "record_type": "session",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete",
+      "exportExerciseTcx"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/exercise"
+  },
+  "floors": {
+    "display_name": "Floors",
+    "data_type": "floors",
+    "filter_name": "floors",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "rollUp",
+      "dailyRollUp",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/floors"
+  },
+  "food": {
+    "display_name": "Food",
+    "data_type": "food",
+    "filter_name": "food",
+    "record_type": "food",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "nutrition",
+    "webhook_support": false,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/food"
+  },
+  "food-measurement-unit": {
+    "display_name": "Food Measurement Unit",
+    "data_type": "food-measurement-unit",
+    "filter_name": "food_measurement_unit",
+    "record_type": "food",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "nutrition",
+    "webhook_support": false,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/food-measurement-unit"
+  },
+  "heart-rate": {
+    "display_name": "Heart Rate",
+    "data_type": "heart-rate",
+    "filter_name": "heart_rate",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "rollUp",
+      "dailyRollUp",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/heart-rate"
+  },
+  "heart-rate-variability": {
+    "display_name": "Heart Rate Variability",
+    "data_type": "heart-rate-variability",
+    "filter_name": "heart_rate_variability",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/heart-rate-variability"
+  },
+  "height": {
+    "display_name": "Height",
+    "data_type": "height",
+    "filter_name": "height",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/height"
+  },
+  "hydration-log": {
+    "display_name": "Hydration Log",
+    "data_type": "hydration-log",
+    "filter_name": "hydration_log",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "nutrition",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/hydration-log"
+  },
+  "irregular-rhythm-notification": {
+    "display_name": "Irregular Rhythm Notification",
+    "data_type": "irregular-rhythm-notification",
+    "filter_name": "irregular_rhythm_notification",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "irn",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/irregular-rhythm-notification"
+  },
+  "nutrition-log": {
+    "display_name": "Nutrition Log",
+    "data_type": "nutrition-log",
+    "filter_name": "nutrition_log",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "nutrition",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/nutrition-log"
+  },
+  "oxygen-saturation": {
+    "display_name": "Oxygen Saturation",
+    "data_type": "oxygen-saturation",
+    "filter_name": "oxygen_saturation",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/oxygen-saturation"
+  },
+  "respiratory-rate-sleep-summary": {
+    "display_name": "Respiratory Rate Sleep Summary",
+    "data_type": "respiratory-rate-sleep-summary",
+    "filter_name": "respiratory_rate_sleep_summary",
+    "record_type": "daily",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "sleep",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/respiratory-rate-sleep-summary"
+  },
+  "run-vo2-max": {
+    "display_name": "Run VO2 Max",
+    "data_type": "run-vo2-max",
+    "filter_name": "run_vo2_max",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/run-vo2-max"
+  },
+  "sedentary-period": {
+    "display_name": "Sedentary Period",
+    "data_type": "sedentary-period",
+    "filter_name": "sedentary_period",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/sedentary-period"
+  },
+  "sleep": {
+    "display_name": "Sleep",
+    "data_type": "sleep",
+    "filter_name": "sleep",
+    "record_type": "session",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "sleep",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/sleep"
+  },
+  "steps": {
+    "display_name": "Steps",
+    "data_type": "steps",
+    "filter_name": "steps",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "rollUp",
+      "dailyRollUp",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/steps"
+  },
+  "swim-lengths-data": {
+    "display_name": "Swim Lengths Data",
+    "data_type": "swim-lengths-data",
+    "filter_name": "swim_lengths_data",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": false,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/swim-lengths-data"
+  },
+  "time-in-heart-rate-zone": {
+    "display_name": "Time in Heart Rate Zone",
+    "data_type": "time-in-heart-rate-zone",
+    "filter_name": "time_in_heart_rate_zone",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": false,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/time-in-heart-rate-zone"
+  },
+  "total-calories": {
+    "display_name": "Total Calories",
+    "data_type": "total-calories",
+    "filter_name": "total_calories",
+    "record_type": "daily",
+    "supported_operations": [
+      "dailyRollUp"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/total-calories"
+  },
+  "vo2-max": {
+    "display_name": "VO2 Max",
+    "data_type": "vo2-max",
+    "filter_name": "vo2_max",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/vo2-max"
+  },
+  "weight": {
+    "display_name": "Weight",
+    "data_type": "weight",
+    "filter_name": "weight",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "metrics",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/weight"
+  },
+  "basal-energy-burned": {
+    "display_name": "Basal Energy Burned",
+    "data_type": "basal-energy-burned",
+    "filter_name": "basal_energy_burned",
+    "record_type": "interval",
+    "supported_operations": [
+      "list",
+      "get",
+      "reconcile",
+      "rollUp",
+      "dailyRollUp",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": true,
+    "documentation_url": "https://developers.google.com/health/data-types/calories"
+  },
+  "basal-metabolic-rate": {
+    "display_name": "Basal Metabolic Rate",
+    "data_type": "basal-metabolic-rate",
+    "filter_name": "basal_metabolic_rate",
+    "record_type": "sample",
+    "supported_operations": [
+      "list",
+      "get",
+      "create",
+      "update",
+      "batchDelete"
+    ],
+    "required_scope_family": "activity",
+    "webhook_support": true,
+    "true_zero_support": false,
+    "documentation_url": "https://developers.google.com/health/data-types/calories"
+  }
+}
