@@ -50,10 +50,9 @@ For AI agents (like Codex, Cursor, Claude Code, or Gemini), you can install the 
 
 ### Installing the Skill
 
-Add this skill directly to your workspace:
+Add this skill directly to your workspace using skills.sh:
 
 ```bash
-# Install the skill from this repository using skills.sh
 npx skills add chiragvijay/ghealth-cli
 ```
 
