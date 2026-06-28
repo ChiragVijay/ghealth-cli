@@ -4,6 +4,25 @@
 
 The CLI stores tokens locally and does not include telemetry.
 
+## Prerequisites
+
+1. **Install `uv`** (Python package manager):
+
+   ```bash
+   curl -LsSf https://astral.sh/uv/install.sh | sh
+   ```
+
+   See the [uv installation guide](https://docs.astral.sh/uv/getting-started/installation/) for other methods.
+
+2. **Set up a Google Cloud project with the Health API**:
+
+   Follow Google's official [Health API setup guide](https://developers.google.com/health/setup) to:
+   - Create a Google Cloud project
+   - Enable the Google Health API
+   - Configure an OAuth 2.0 consent screen
+   - Create an OAuth client ID (Desktop application type)
+   - Download the client credentials JSON file
+
 ## Installation
 
 You can install `ghealth` directly from this GitHub repository using `uv`:
@@ -21,7 +40,7 @@ uv run ghealth --help
 
 ## Setup
 
-Google Health requires bring-your-own Google Cloud OAuth credentials. Create a Google Cloud project, enable the Google Health API, configure an OAuth client, and download the client credentials JSON. See Google's [Health setup guide](https://developers.google.com/health/setup).
+Point the CLI at your downloaded OAuth credentials and log in:
 
 ```bash
 ghealth auth configure --credentials credentials.json
@@ -57,4 +76,3 @@ npx skills add chiragvijay/ghealth-cli
 ```
 
 *(Alternatively, you can copy the local [SKILL.md](skills/google-health/SKILL.md) file into your agent's skill directory).*
-
