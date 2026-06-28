@@ -28,7 +28,7 @@ The CLI stores tokens locally and does not include telemetry.
 You can install `ghealth` directly from this GitHub repository using `uv`:
 
 ```bash
-uv tool install git+https://github.com/chiragvijay/ghealth-cli.git
+uv tool install https://github.com/chiragvijay/ghealth-cli.git
 ```
 
 For local development:
