@@ -2,6 +2,7 @@ import json
 import time
 
 import pytest
+from keyring.errors import KeyringError
 from typer.testing import CliRunner
 
 import ghealth.cli
@@ -96,6 +97,71 @@ def test_token_store_keyring(mock_keyring) -> None:
     delete_tokens()
     assert load_tokens() is None
     assert ("ghealth", "tokens") not in mock_keyring
+
+
+def test_token_store_auto_mode(mock_keyring) -> None:
+    """Auto mode dual-writes to both file and keyring, and reads from keyring first."""
+    conf = Config(client_id="123", client_secret="abc", token_storage="auto")
+    save_config(conf)
+
+    assert load_tokens() is None
+
+    tokens = {"access_token": "auto_a", "refresh_token": "auto_r", "expires_at": 9999}
+    save_tokens(tokens)
+
+    # Verify dual-write: both keyring and file should contain the tokens
+    assert ("ghealth", "tokens") in mock_keyring
+    from ghealth.auth.token_store import get_token_path
+
+    token_file = get_token_path()
+    assert token_file.exists()
+    file_tokens = json.loads(token_file.read_text(encoding="utf-8"))
+    assert file_tokens["access_token"] == "auto_a"
+
+    # Load should return tokens (via keyring path first)
+    loaded = load_tokens()
+    assert loaded == tokens
+
+    delete_tokens()
+    assert load_tokens() is None
+
+
+def test_token_store_auto_keyring_fails_reads_file(mock_keyring, monkeypatch) -> None:
+    """When keyring is unavailable on read, auto mode falls back to the local file."""
+    conf = Config(client_id="123", client_secret="abc", token_storage="auto")
+    save_config(conf)
+
+    tokens = {"access_token": "fb_a", "refresh_token": "fb_r", "expires_at": 9999}
+    save_tokens(tokens)
+
+    # Simulate keyring becoming unavailable (e.g. sandboxed process)
+    import ghealth.auth.token_store
+
+    def _raise_keyring_error(service_name: str, username: str) -> str | None:
+        raise KeyringError("sandbox blocked")
+
+    monkeypatch.setattr(ghealth.auth.token_store.keyring, "get_password", _raise_keyring_error)
+
+    loaded = load_tokens()
+    assert loaded is not None
+    assert loaded["access_token"] == "fb_a"
+
+
+def test_token_store_auto_file_permissions(mock_keyring) -> None:
+    """Auto mode sets restrictive file permissions (0600) on the token file."""
+    import stat
+
+    conf = Config(client_id="123", client_secret="abc", token_storage="auto")
+    save_config(conf)
+
+    tokens = {"access_token": "perm_a", "refresh_token": "perm_r", "expires_at": 9999}
+    save_tokens(tokens)
+
+    from ghealth.auth.token_store import get_token_path
+
+    token_file = get_token_path()
+    file_mode = token_file.stat().st_mode
+    assert file_mode & 0o777 == stat.S_IRUSR | stat.S_IWUSR  # 0600
 
 
 def test_scopes_expansion() -> None:
@@ -203,7 +269,7 @@ def test_cli_status_no_auth() -> None:
 def test_cli_status_success(mock_keyring) -> None:
     runner = CliRunner()
 
-    conf = Config(client_id="123", client_secret="abc", token_storage="keyring")
+    conf = Config(client_id="123", client_secret="abc", token_storage="auto")
     save_config(conf)
 
     tokens = {
@@ -218,14 +284,14 @@ def test_cli_status_success(mock_keyring) -> None:
     res = runner.invoke(app, ["auth", "status"])
     assert res.exit_code == 0
     assert "Authenticated" in res.stdout
-    assert "keyring" in res.stdout
+    assert "auto" in res.stdout
 
     # JSON view
     res_json = runner.invoke(app, ["--format", "json", "auth", "status"])
     assert res_json.exit_code == 0
     data = json.loads(res_json.stdout)
     assert data["authenticated"] is True
-    assert data["token_storage_backend"] == "keyring"
+    assert data["token_storage_backend"] == "auto"
 
 
 def test_cli_logout(mock_keyring) -> None:

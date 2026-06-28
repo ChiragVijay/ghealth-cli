@@ -36,7 +36,7 @@ def auth_configure(
     token_storage: str | None = typer.Option(
         None,
         "--token-storage",
-        help="Token storage backend: 'keyring' or 'plaintext'.",
+        help="Token storage backend: 'auto' (default, keyring + file fallback), 'keyring', or 'plaintext'.",
     ),
     i_understand_health_data_risk: bool = typer.Option(
         False,
@@ -50,11 +50,11 @@ def auth_configure(
     # 1. Handle token_storage option validation
     storage = None
     if token_storage is not None:
-        if token_storage not in ("keyring", "plaintext"):
+        if token_storage not in ("auto", "keyring", "plaintext"):
             print_cli_error(
                 state,
                 "invalid_storage_backend",
-                "Storage backend must be 'keyring' or 'plaintext'.",
+                "Storage backend must be 'auto', 'keyring', or 'plaintext'.",
                 exit_code=2,
             )
         if token_storage == "plaintext" and not i_understand_health_data_risk:
@@ -115,7 +115,7 @@ def auth_configure(
     new_config = Config(
         client_id=updated_client_id,
         client_secret=updated_client_secret,
-        token_storage=storage or (existing_config.token_storage if existing_config else "keyring"),
+        token_storage=storage or (existing_config.token_storage if existing_config else "auto"),
         auth_uri=auth_uri
         or (existing_config.auth_uri if existing_config else "https://accounts.google.com/o/oauth2/auth"),
         token_uri=token_uri

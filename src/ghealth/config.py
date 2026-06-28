@@ -8,7 +8,7 @@ from pydantic import BaseModel, ValidationError
 class Config(BaseModel):
     client_id: str
     client_secret: str
-    token_storage: str = "keyring"
+    token_storage: str = "auto"
     auth_uri: str = "https://accounts.google.com/o/oauth2/auth"
     token_uri: str = "https://oauth2.googleapis.com/token"
     user_email: str | None = None
