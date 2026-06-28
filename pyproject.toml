@@ -1,6 +1,6 @@
 [project]
 name = "ghealth"
-version = "1.0.0"
+version = "1.1.0"
 description = "Command Line Tool for Google Health API"
 readme = "README.md"
 
