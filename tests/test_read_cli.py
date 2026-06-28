@@ -420,12 +420,12 @@ def test_sleep_list_shortcut_builds_session_filter(mock_keyring, monkeypatch) ->
     assert result.exit_code == 0
     assert captured["path"] == "/v4/users/me/dataTypes/sleep/dataPoints"
     assert (
-        captured["filter"]
-        == 'sleep.interval.start_time >= "2026-06-01" AND sleep.interval.start_time < "2026-06-10"'
+        captured["filter"] == 'sleep.interval.civil_end_time >= "2026-06-01" AND '
+        'sleep.interval.civil_end_time < "2026-06-10"'
     )
 
 
-def test_heart_rate_list_shortcut_builds_interval_filter(mock_keyring, monkeypatch) -> None:
+def test_heart_rate_list_shortcut_builds_sample_filter(mock_keyring, monkeypatch) -> None:
     _setup_auth(mock_keyring)
     captured = {"path": "", "filter": ""}
 
@@ -454,8 +454,8 @@ def test_heart_rate_list_shortcut_builds_interval_filter(mock_keyring, monkeypat
     assert result.exit_code == 0
     assert captured["path"] == "/v4/users/me/dataTypes/heart-rate/dataPoints"
     assert (
-        captured["filter"] == 'heart_rate.interval.start_time >= "2026-06-01T00:00:00Z" AND '
-        'heart_rate.interval.start_time < "2026-06-02T00:00:00Z"'
+        captured["filter"] == 'heart_rate.sample_time.physical_time >= "2026-06-01T00:00:00Z" AND '
+        'heart_rate.sample_time.physical_time < "2026-06-02T00:00:00Z"'
     )
 
 
@@ -486,8 +486,8 @@ def test_weight_list_shortcut_builds_sample_filter(mock_keyring, monkeypatch) ->
     assert result.exit_code == 0
     assert captured["path"] == "/v4/users/me/dataTypes/weight/dataPoints"
     assert (
-        captured["filter"] == 'weight.sample_time.physical_time >= "2026-01-01" AND '
-        'weight.sample_time.physical_time < "2026-06-10"'
+        captured["filter"] == 'weight.sample_time.civil_time >= "2026-01-01" AND '
+        'weight.sample_time.civil_time < "2026-06-10"'
     )
 
 

@@ -21,6 +21,21 @@ def test_registry_get_valid() -> None:
     assert steps_info.true_zero_support is True
 
 
+def test_registry_uses_documented_record_shapes_for_shortcuts() -> None:
+    registry = DataTypeRegistry()
+
+    heart_rate = registry.get("heart-rate")
+    hydration = registry.get("hydration-log")
+    nutrition = registry.get("nutrition-log")
+
+    assert heart_rate is not None
+    assert hydration is not None
+    assert nutrition is not None
+    assert heart_rate.record_type == "sample"
+    assert hydration.record_type == "interval"
+    assert nutrition.record_type == "interval"
+
+
 def test_registry_get_invalid() -> None:
     registry = DataTypeRegistry()
     assert registry.get("non-existent") is None

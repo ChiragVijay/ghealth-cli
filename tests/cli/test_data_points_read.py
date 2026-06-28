@@ -510,8 +510,8 @@ def test_sleep_list_shortcut_builds_session_filter(mock_keyring, monkeypatch) ->
     assert result.exit_code == 0
     assert captured["path"] == "/v4/users/me/dataTypes/sleep/dataPoints"
     assert (
-        captured["filter"]
-        == 'sleep.interval.start_time >= "2026-06-01" AND sleep.interval.start_time < "2026-06-10"'
+        captured["filter"] == 'sleep.interval.civil_end_time >= "2026-06-01" AND '
+        'sleep.interval.civil_end_time < "2026-06-10"'
     )
 
 
@@ -541,12 +541,8 @@ def test_sleep_list_shortcut_limit_truncates_json_output(mock_keyring, monkeypat
 @pytest.mark.parametrize(
     ("command", "data_type"),
     [
-        ("exercise", "exercise"),
         ("height", "height"),
         ("body-fat", "body-fat"),
-        ("hydration", "hydration-log"),
-        ("food", "food"),
-        ("nutrition", "nutrition-log"),
     ],
 )
 def test_common_list_shortcuts_call_data_type_list(command, data_type, mock_keyring, monkeypatch) -> None:
@@ -565,6 +561,88 @@ def test_common_list_shortcuts_call_data_type_list(command, data_type, mock_keyr
 
     assert result.exit_code == 0
     assert captured["path"] == f"/v4/users/me/dataTypes/{data_type}/dataPoints"
+
+
+@pytest.mark.parametrize(
+    ("command", "data_type", "expected_filter"),
+    [
+        (
+            "exercise",
+            "exercise",
+            'exercise.interval.civil_start_time >= "2026-06-01" AND '
+            'exercise.interval.civil_start_time < "2026-06-10"',
+        ),
+        (
+            "hydration",
+            "hydration-log",
+            'hydration_log.interval.civil_start_time >= "2026-06-01" AND '
+            'hydration_log.interval.civil_start_time < "2026-06-10"',
+        ),
+        (
+            "nutrition",
+            "nutrition-log",
+            'nutrition_log.interval.civil_start_time >= "2026-06-01" AND '
+            'nutrition_log.interval.civil_start_time < "2026-06-10"',
+        ),
+    ],
+)
+def test_interval_list_shortcuts_build_civil_start_filter(
+    command,
+    data_type,
+    expected_filter,
+    mock_keyring,
+    monkeypatch,
+) -> None:
+    _setup_auth(mock_keyring)
+    captured = {"path": "", "filter": ""}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        captured["path"] = request.url.path
+        captured["filter"] = request.url.params.get("filter", "")
+        return httpx.Response(
+            200,
+            json={"dataPoints": [{"name": f"users/me/dataTypes/{data_type}/dataPoints/1"}]},
+        )
+
+    _patch_api_client(monkeypatch, httpx.MockTransport(handler))
+    result = runner.invoke(
+        app,
+        ["--format", "json", command, "list", "--start", "2026-06-01", "--end", "2026-06-10"],
+    )
+
+    assert result.exit_code == 0
+    assert captured["path"] == f"/v4/users/me/dataTypes/{data_type}/dataPoints"
+    assert captured["filter"] == expected_filter
+
+
+def test_food_list_shortcut_without_filter_calls_food_list(mock_keyring, monkeypatch) -> None:
+    _setup_auth(mock_keyring)
+    captured = {"path": "", "filter": None}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        captured["path"] = request.url.path
+        captured["filter"] = request.url.params.get("filter")
+        return httpx.Response(200, json={"dataPoints": [{"name": "users/me/dataTypes/food/dataPoints/1"}]})
+
+    _patch_api_client(monkeypatch, httpx.MockTransport(handler))
+    result = runner.invoke(app, ["--format", "json", "food", "list", "--limit", "1"])
+
+    assert result.exit_code == 0
+    assert captured["path"] == "/v4/users/me/dataTypes/food/dataPoints"
+    assert captured["filter"] is None
+
+
+def test_food_list_shortcut_with_time_filter_returns_structured_error(mock_keyring) -> None:
+    _setup_auth(mock_keyring)
+    result = runner.invoke(
+        app,
+        ["--format", "json", "food", "list", "--start", "2026-06-01", "--end", "2026-06-10"],
+    )
+
+    assert result.exit_code == 2
+    data = json.loads(result.stdout)
+    assert data["error"]["code"] == "unsupported_time_filter"
+    assert data["error"]["details"]["data_type"] == "food"
 
 
 def test_heart_rate_list_shortcut_builds_interval_filter(mock_keyring, monkeypatch) -> None:
@@ -596,8 +674,8 @@ def test_heart_rate_list_shortcut_builds_interval_filter(mock_keyring, monkeypat
     assert result.exit_code == 0
     assert captured["path"] == "/v4/users/me/dataTypes/heart-rate/dataPoints"
     assert (
-        captured["filter"] == 'heart_rate.interval.start_time >= "2026-06-01T00:00:00Z" AND '
-        'heart_rate.interval.start_time < "2026-06-02T00:00:00Z"'
+        captured["filter"] == 'heart_rate.sample_time.physical_time >= "2026-06-01T00:00:00Z" AND '
+        'heart_rate.sample_time.physical_time < "2026-06-02T00:00:00Z"'
     )
 
 
@@ -628,6 +706,6 @@ def test_weight_list_shortcut_builds_sample_filter(mock_keyring, monkeypatch) ->
     assert result.exit_code == 0
     assert captured["path"] == "/v4/users/me/dataTypes/weight/dataPoints"
     assert (
-        captured["filter"] == 'weight.sample_time.physical_time >= "2026-01-01" AND '
-        'weight.sample_time.physical_time < "2026-06-10"'
+        captured["filter"] == 'weight.sample_time.civil_time >= "2026-01-01" AND '
+        'weight.sample_time.civil_time < "2026-06-10"'
     )

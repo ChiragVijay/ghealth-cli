@@ -349,7 +349,7 @@
     "display_name": "Heart Rate",
     "data_type": "heart-rate",
     "filter_name": "heart_rate",
-    "record_type": "interval",
+    "record_type": "sample",
     "supported_operations": [
       "list",
       "get",
@@ -400,7 +400,7 @@
     "display_name": "Hydration Log",
     "data_type": "hydration-log",
     "filter_name": "hydration_log",
-    "record_type": "sample",
+    "record_type": "interval",
     "supported_operations": [
       "list",
       "get",
@@ -431,7 +431,7 @@
     "display_name": "Nutrition Log",
     "data_type": "nutrition-log",
     "filter_name": "nutrition_log",
-    "record_type": "sample",
+    "record_type": "interval",
     "supported_operations": [
       "list",
       "get",

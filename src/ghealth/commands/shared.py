@@ -98,7 +98,20 @@ def build_optional_time_filter(
     if filter_expr:
         return filter_expr
     if start or end:
-        return build_data_point_time_filter(info, start=start, end=end)
+        try:
+            return build_data_point_time_filter(info, start=start, end=end)
+        except ValueError as e:
+            print_cli_error(
+                state,
+                "unsupported_time_filter",
+                str(e),
+                exit_code=2,
+                details={
+                    "data_type": info.data_type,
+                    "record_type": info.record_type,
+                    "documentation_url": info.documentation_url,
+                },
+            )
     return None
 
 

@@ -3,6 +3,16 @@ from datetime import date
 from ghealth.data_types import DataTypeInfo
 
 
+def _uses_physical_time(value: str) -> bool:
+    return value.endswith("Z") or "+" in value[10:] or "-" in value[10:]
+
+
+def _require_civil_time(info: DataTypeInfo, uses_physical_time: bool) -> None:
+    if uses_physical_time:
+        msg = f"{info.data_type} time filters support date-only civil ranges."
+        raise ValueError(msg)
+
+
 def build_data_point_time_filter(
     info: DataTypeInfo,
     *,
@@ -13,13 +23,34 @@ def build_data_point_time_filter(
     filter_name = info.filter_name
     record_type = info.record_type
 
-    field_map = {
-        "interval": f"{filter_name}.interval.start_time",
-        "sample": f"{filter_name}.sample_time.physical_time",
-        "daily": f"{filter_name}.date",
-        "session": f"{filter_name}.interval.start_time",
-    }
-    field = field_map.get(record_type)
+    first_bound = start or end or ""
+    uses_physical_time = _uses_physical_time(first_bound)
+
+    if record_type == "interval":
+        if info.data_type in {"hydration-log", "nutrition-log"}:
+            _require_civil_time(info, uses_physical_time)
+            field = f"{filter_name}.interval.civil_start_time"
+        else:
+            suffix = "start_time" if uses_physical_time else "civil_start_time"
+            field = f"{filter_name}.interval.{suffix}"
+    elif record_type == "sample":
+        suffix = "physical_time" if uses_physical_time else "civil_time"
+        field = f"{filter_name}.sample_time.{suffix}"
+    elif record_type == "daily":
+        field = f"{filter_name}.date"
+    elif record_type == "session":
+        if info.data_type == "sleep":
+            suffix = "end_time" if uses_physical_time else "civil_end_time"
+            field = f"{filter_name}.interval.{suffix}"
+        elif info.data_type == "exercise":
+            _require_civil_time(info, uses_physical_time)
+            field = f"{filter_name}.interval.civil_start_time"
+        else:
+            suffix = "start_time" if uses_physical_time else "civil_start_time"
+            field = f"{filter_name}.{suffix}"
+    else:
+        field = None
+
     if field is None:
         msg = f"Unsupported record type '{record_type}' for time filter."
         raise ValueError(msg)

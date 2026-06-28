@@ -231,6 +231,116 @@ def test_build_data_point_time_filter_for_interval() -> None:
     )
 
 
+def test_build_data_point_time_filter_for_interval_civil_dates() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("steps")
+    assert info is not None
+    result = build_data_point_time_filter(info, start="2026-06-01", end="2026-06-02")
+
+    assert result == (
+        'steps.interval.civil_start_time >= "2026-06-01" AND steps.interval.civil_start_time < "2026-06-02"'
+    )
+
+
+def test_build_data_point_time_filter_for_sleep_uses_session_end_time() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("sleep")
+    assert info is not None
+    result = build_data_point_time_filter(info, start="2026-06-01", end="2026-06-10")
+
+    assert result == (
+        'sleep.interval.civil_end_time >= "2026-06-01" AND sleep.interval.civil_end_time < "2026-06-10"'
+    )
+
+
+def test_build_data_point_time_filter_for_sleep_physical_timestamps() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("sleep")
+    assert info is not None
+    result = build_data_point_time_filter(
+        info,
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-10T00:00:00Z",
+    )
+
+    assert result == (
+        'sleep.interval.end_time >= "2026-06-01T00:00:00Z" AND '
+        'sleep.interval.end_time < "2026-06-10T00:00:00Z"'
+    )
+
+
+def test_build_data_point_time_filter_for_exercise_uses_civil_start_time() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("exercise")
+    assert info is not None
+    result = build_data_point_time_filter(info, start="2026-06-01", end="2026-06-10")
+
+    assert result == (
+        'exercise.interval.civil_start_time >= "2026-06-01" AND '
+        'exercise.interval.civil_start_time < "2026-06-10"'
+    )
+
+
+def test_build_data_point_time_filter_for_exercise_rejects_physical_time() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("exercise")
+    assert info is not None
+
+    with pytest.raises(ValueError, match="date-only civil ranges"):
+        build_data_point_time_filter(info, start="2026-06-01T00:00:00Z")
+
+
+def test_build_data_point_time_filter_for_heart_rate_uses_sample_time() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("heart-rate")
+    assert info is not None
+    result = build_data_point_time_filter(
+        info,
+        start="2026-06-01T00:00:00Z",
+        end="2026-06-02T00:00:00Z",
+    )
+
+    assert result == (
+        'heart_rate.sample_time.physical_time >= "2026-06-01T00:00:00Z" AND '
+        'heart_rate.sample_time.physical_time < "2026-06-02T00:00:00Z"'
+    )
+
+
+def test_build_data_point_time_filter_for_hydration_uses_interval_civil_start_time() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("hydration-log")
+    assert info is not None
+    result = build_data_point_time_filter(info, start="2026-06-01", end="2026-06-10")
+
+    assert result == (
+        'hydration_log.interval.civil_start_time >= "2026-06-01" AND '
+        'hydration_log.interval.civil_start_time < "2026-06-10"'
+    )
+
+
+def test_build_data_point_time_filter_for_nutrition_uses_interval_civil_start_time() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("nutrition-log")
+    assert info is not None
+    result = build_data_point_time_filter(info, start="2026-06-01", end="2026-06-10")
+
+    assert result == (
+        'nutrition_log.interval.civil_start_time >= "2026-06-01" AND '
+        'nutrition_log.interval.civil_start_time < "2026-06-10"'
+    )
+
+
+def test_build_data_point_time_filter_for_sample_civil_dates() -> None:
+    registry = DataTypeRegistry()
+    info = registry.get("weight")
+    assert info is not None
+    result = build_data_point_time_filter(info, start="2026-06-01", end="2026-06-10")
+
+    assert result == (
+        'weight.sample_time.civil_time >= "2026-06-01" AND weight.sample_time.civil_time < "2026-06-10"'
+    )
+
+
 def test_build_civil_datetime_validates_date_only() -> None:
     assert build_civil_datetime("2026-06-01") == {"date": {"year": 2026, "month": 6, "day": 1}}
     with pytest.raises(ValueError, match="YYYY-MM-DD"):
