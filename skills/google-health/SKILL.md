@@ -1,6 +1,6 @@
 ---
 name: google-health
-description: Use the ghealth CLI to inspect locally authorized Google Health data. Use when asked to check Google Health auth/scopes, discover data types, list devices, fetch steps, sleep, heart-rate, weight, calories, or manage Google Health webhook infrastructure.
+description: Use the ghealth CLI to inspect Google Health data. Use when asked to check Google Health auth/scopes, discover data types, list devices, fetch steps, sleep, heart-rate, weight, calories, or manage Google Health webhook infrastructure.
 ---
 
 # Google Health CLI
@@ -100,12 +100,3 @@ ghealth subscriptions delete SUBSCRIPTION_NAME --yes
 ghealth auth revoke
 ```
 
-If JSON or noninteractive mode returns `confirmation_required`, stop and ask the user.
-
-## Troubleshooting
-
-- `not_configured`: ask for Google OAuth credentials, then run `ghealth auth configure --credentials PATH`.
-- `not_authenticated`: ask before running `ghealth auth login`.
-- `missing_scope_or_forbidden`: show the suggested login command from error details.
-- `rate_limited`: wait and retry later; do not loop aggressively.
-- Empty results may mean device sync has not completed or the date range is wrong.
