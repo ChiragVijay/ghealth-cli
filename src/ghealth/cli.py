@@ -26,6 +26,18 @@ for shortcut_name, shortcut_app in SHORTCUT_APPS:
     app.add_typer(shortcut_app, name=shortcut_name)
 
 
+def version_callback(value: bool) -> None:
+    if value:
+        import importlib.metadata
+
+        try:
+            version = importlib.metadata.version("ghealth")
+        except importlib.metadata.PackageNotFoundError:
+            version = "unknown"
+        typer.echo(message=f"ghealth version: {version}")
+        raise typer.Exit()
+
+
 @app.callback()
 def main(
     ctx: typer.Context,
@@ -37,6 +49,13 @@ def main(
     ),
     debug: bool = typer.Option(False, "--debug", help="Enable debug logging"),
     no_color: bool = typer.Option(False, "--no-color", help="Disable color output"),
+    version: bool = typer.Option(
+        False,
+        "--version",
+        callback=version_callback,
+        is_eager=True,
+        help="Show the version and exit.",
+    ),
 ) -> None:
     state = CliState(
         output_format=output_format,

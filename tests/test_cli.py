@@ -13,6 +13,15 @@ def test_help() -> None:
     assert "G Health CLI tool" in result.stdout
 
 
+def test_version() -> None:
+    import importlib.metadata
+
+    result = runner.invoke(app, ["--version"])
+    assert result.exit_code == 0
+    expected_version = importlib.metadata.version("ghealth")
+    assert f"ghealth version: {expected_version}" in result.stdout
+
+
 def test_console_entry_point_imports() -> None:
     from ghealth.cli import app as imported_app
 
