@@ -26,6 +26,33 @@ for shortcut_name, shortcut_app in SHORTCUT_APPS:
     app.add_typer(shortcut_app, name=shortcut_name)
 
 
+@app.command(name="update")
+def update_cmd() -> None:
+    """Update the CLI tool to the latest version."""
+    import shutil
+    import subprocess
+
+    uv_path = shutil.which("uv")
+    if not uv_path:
+        typer.echo("Error: 'uv' package manager could not be located in your PATH.", err=True)
+        typer.echo("This CLI tool requires 'uv' to perform updates.", err=True)
+        typer.echo(
+            "Please install uv (https://astral.sh/uv) or run manually: uv tool upgrade ghealth", err=True
+        )
+        raise typer.Exit(code=1)
+
+    typer.echo("Found 'uv'. Running `uv tool upgrade ghealth`...")
+    try:
+        result = subprocess.run([uv_path, "tool", "upgrade", "ghealth"], check=True)  # noqa: S603
+        if result.returncode == 0:
+            typer.echo("ghealth updated successfully!")
+            return
+    except subprocess.CalledProcessError as e:
+        typer.echo(f"Error during update: {e}", err=True)
+        typer.echo("Please try running manually: uv tool upgrade ghealth", err=True)
+        raise typer.Exit(code=1) from None
+
+
 def version_callback(value: bool) -> None:
     if value:
         import importlib.metadata

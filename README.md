@@ -31,6 +31,18 @@ You can install `ghealth` directly from this GitHub repository using `uv`:
 uv tool install https://github.com/chiragvijay/ghealth-cli.git
 ```
 
+To update `ghealth` to the latest version, run:
+
+```bash
+ghealth update
+```
+
+Alternatively, you can update directly:
+
+```bash
+uv tool upgrade ghealth
+```
+
 For local development:
 
 ```bash
@@ -49,6 +61,7 @@ ghealth doctor
 ```
 
 ## Usage
+
 ```bash
 # View daily aggregates (defaults to the last 5 days)
 ghealth steps daily --last-days 5
@@ -75,4 +88,4 @@ Add this skill directly to your workspace using skills.sh:
 npx skills add chiragvijay/ghealth-cli
 ```
 
-*(Alternatively, you can copy the local [SKILL.md](skills/google-health/SKILL.md) file into your agent's skill directory).*
+_(Alternatively, you can copy the local [SKILL.md](skills/google-health/SKILL.md) file into your agent's skill directory)._

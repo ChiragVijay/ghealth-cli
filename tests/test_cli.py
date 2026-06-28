@@ -193,3 +193,46 @@ def test_data_types_scopes_json() -> None:
     assert result.exit_code == 0
     data = json.loads(result.stdout)
     assert any("activity_and_fitness.readonly" in s for s in data)
+
+
+def test_update_command_uv(monkeypatch) -> None:
+    import shutil
+    import subprocess
+
+    uv_runs = []
+
+    def mock_which(cmd):
+        if cmd == "uv":
+            return "/mocked/path/to/uv"
+        return None
+
+    def mock_run(cmd, *args, **kwargs):
+        uv_runs.append(cmd)
+
+        class MockResult:
+            returncode = 0
+
+        return MockResult()
+
+    monkeypatch.setattr(shutil, "which", mock_which)
+    monkeypatch.setattr(subprocess, "run", mock_run)
+
+    result = runner.invoke(app, ["update"])
+    assert result.exit_code == 0
+    assert "Found 'uv'" in result.stdout
+    assert "ghealth updated successfully!" in result.stdout
+    assert uv_runs == [["/mocked/path/to/uv", "tool", "upgrade", "ghealth"]]
+
+
+def test_update_command_not_found(monkeypatch) -> None:
+    import shutil
+
+    def mock_which(cmd):
+        return None
+
+    monkeypatch.setattr(shutil, "which", mock_which)
+
+    result = runner.invoke(app, ["update"])
+    assert result.exit_code == 1
+    assert "Error: 'uv' package manager could not be located in your PATH." in result.stderr
+    assert "This CLI tool requires 'uv' to perform updates." in result.stderr
